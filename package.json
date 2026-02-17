@@ -1,0 +1,31 @@
+{
+  "name": "@template-fullstack",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": "use pnpm",
+    "yarn": "use pnpm"
+  },
+  "scripts": {
+    "dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\"",
+    "dev:server": "cd server && pnpm run dev",
+    "dev:client": "cd client && pnpm run dev",
+    "build:client": "cd client && pnpm run build",
+    "nuke": "rm -rf node_modules client/node_modules server/node_modules client/dist client/.tanstack server/dist test-results playwright-report",
+    "install:all": "pnpm install && pnpm --prefix server install && pnpm --prefix client install",
+    "test": "pnpm --prefix client run test && pnpm --prefix server run test",
+    "test:e2e": "playwright test",
+    "lint": "pnpm --prefix client run lint && pnpm --prefix server run lint",
+    "typecheck": "pnpm --prefix client run typecheck && pnpm --prefix server run typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "concurrently": "^9.1.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.1"
+  }
+}

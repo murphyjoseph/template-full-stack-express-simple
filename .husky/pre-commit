@@ -1,0 +1,3 @@
+eval "$(mise activate bash --shims)" 2>/dev/null || true
+
+cd client && pnpm exec lint-staged && cd ../server && pnpm exec lint-staged
