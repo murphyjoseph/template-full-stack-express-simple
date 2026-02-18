@@ -8,106 +8,130 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root';
-import { Route as IndexRouteImport } from './routes/index';
-import { Route as ItemsIndexRouteImport } from './routes/items/index';
-import { Route as ItemsSwrIndexRouteImport } from './routes/items-swr/index';
-import { Route as ItemsFormIndexRouteImport } from './routes/items-form/index';
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ItemsIndexRouteImport } from './routes/items/index'
+import { Route as ItemsSwrIndexRouteImport } from './routes/items-swr/index'
+import { Route as ItemsFormIndexRouteImport } from './routes/items-form/index'
+import { Route as ItemsActionIndexRouteImport } from './routes/items-action/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ItemsIndexRoute = ItemsIndexRouteImport.update({
   id: '/items/',
   path: '/items/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ItemsSwrIndexRoute = ItemsSwrIndexRouteImport.update({
   id: '/items-swr/',
   path: '/items-swr/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ItemsFormIndexRoute = ItemsFormIndexRouteImport.update({
   id: '/items-form/',
   path: '/items-form/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
+const ItemsActionIndexRoute = ItemsActionIndexRouteImport.update({
+  id: '/items-action/',
+  path: '/items-action/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
-  '/items-form/': typeof ItemsFormIndexRoute;
-  '/items-swr/': typeof ItemsSwrIndexRoute;
-  '/items/': typeof ItemsIndexRoute;
+  '/': typeof IndexRoute
+  '/items-action/': typeof ItemsActionIndexRoute
+  '/items-form/': typeof ItemsFormIndexRoute
+  '/items-swr/': typeof ItemsSwrIndexRoute
+  '/items/': typeof ItemsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
-  '/items-form': typeof ItemsFormIndexRoute;
-  '/items-swr': typeof ItemsSwrIndexRoute;
-  '/items': typeof ItemsIndexRoute;
+  '/': typeof IndexRoute
+  '/items-action': typeof ItemsActionIndexRoute
+  '/items-form': typeof ItemsFormIndexRoute
+  '/items-swr': typeof ItemsSwrIndexRoute
+  '/items': typeof ItemsIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/': typeof IndexRoute;
-  '/items-form/': typeof ItemsFormIndexRoute;
-  '/items-swr/': typeof ItemsSwrIndexRoute;
-  '/items/': typeof ItemsIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/items-action/': typeof ItemsActionIndexRoute
+  '/items-form/': typeof ItemsFormIndexRoute
+  '/items-swr/': typeof ItemsSwrIndexRoute
+  '/items/': typeof ItemsIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/items-form/' | '/items-swr/' | '/items/';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/items-form' | '/items-swr' | '/items';
-  id: '__root__' | '/' | '/items-form/' | '/items-swr/' | '/items/';
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/items-action/' | '/items-form/' | '/items-swr/' | '/items/'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/items-action' | '/items-form' | '/items-swr' | '/items'
+  id:
+    | '__root__'
+    | '/'
+    | '/items-action/'
+    | '/items-form/'
+    | '/items-swr/'
+    | '/items/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  ItemsFormIndexRoute: typeof ItemsFormIndexRoute;
-  ItemsSwrIndexRoute: typeof ItemsSwrIndexRoute;
-  ItemsIndexRoute: typeof ItemsIndexRoute;
+  IndexRoute: typeof IndexRoute
+  ItemsActionIndexRoute: typeof ItemsActionIndexRoute
+  ItemsFormIndexRoute: typeof ItemsFormIndexRoute
+  ItemsSwrIndexRoute: typeof ItemsSwrIndexRoute
+  ItemsIndexRoute: typeof ItemsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/items/': {
-      id: '/items/';
-      path: '/items';
-      fullPath: '/items/';
-      preLoaderRoute: typeof ItemsIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/items/'
+      path: '/items'
+      fullPath: '/items/'
+      preLoaderRoute: typeof ItemsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/items-swr/': {
-      id: '/items-swr/';
-      path: '/items-swr';
-      fullPath: '/items-swr/';
-      preLoaderRoute: typeof ItemsSwrIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/items-swr/'
+      path: '/items-swr'
+      fullPath: '/items-swr/'
+      preLoaderRoute: typeof ItemsSwrIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/items-form/': {
-      id: '/items-form/';
-      path: '/items-form';
-      fullPath: '/items-form/';
-      preLoaderRoute: typeof ItemsFormIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/items-form/'
+      path: '/items-form'
+      fullPath: '/items-form/'
+      preLoaderRoute: typeof ItemsFormIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/items-action/': {
+      id: '/items-action/'
+      path: '/items-action'
+      fullPath: '/items-action/'
+      preLoaderRoute: typeof ItemsActionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ItemsActionIndexRoute: ItemsActionIndexRoute,
   ItemsFormIndexRoute: ItemsFormIndexRoute,
   ItemsSwrIndexRoute: ItemsSwrIndexRoute,
   ItemsIndexRoute: ItemsIndexRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

@@ -1,5 +1,5 @@
 {
-  "name": "@template-fullstack/client",
+  "name": "@template-fullstack-express-simple/client",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -11,15 +11,6 @@
     "test:watch": "vitest",
     "typecheck": "tsc -b --noEmit",
     "preview": "vite preview"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint .",
-      "prettier --check --ignore-unknown"
-    ],
-    "*.{json,md,css}": [
-      "prettier --check"
-    ]
   },
   "dependencies": {
     "@chakra-ui/react": "^3.3.0",
@@ -50,7 +41,6 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "jsdom": "^28.1.0",
-    "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",

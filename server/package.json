@@ -1,5 +1,5 @@
 {
-  "name": "@template-fullstack/server",
+  "name": "@template-fullstack-express-simple/server",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -7,20 +7,10 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
-    "postinstall": "prisma generate",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint .",
-      "prettier --check"
-    ],
-    "*.{json,md}": [
-      "prettier --check"
-    ]
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -35,7 +25,6 @@
     "@types/supertest": "^6.0.3",
     "eslint": "^10.0.0",
     "globals": "^17.3.0",
-    "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "prisma": "^5.22.0",
     "supertest": "^7.2.2",

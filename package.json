@@ -1,5 +1,5 @@
 {
-  "name": "@template-fullstack",
+  "name": "@template-fullstack-express-simple",
   "private": true,
   "packageManager": "pnpm@10.0.0",
   "engines": {
@@ -9,23 +9,35 @@
   },
   "scripts": {
     "dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\"",
-    "dev:server": "cd server && pnpm run dev",
-    "dev:client": "cd client && pnpm run dev",
-    "build:client": "cd client && pnpm run build",
+    "dev:server": "pnpm --filter @template-fullstack-express-simple/server dev",
+    "dev:client": "pnpm --filter @template-fullstack-express-simple/client dev",
+    "build:client": "pnpm --filter @template-fullstack-express-simple/client build",
     "nuke": "rm -rf node_modules client/node_modules server/node_modules client/dist client/.tanstack server/dist test-results playwright-report",
-    "install:all": "pnpm install && pnpm --prefix server install && pnpm --prefix client install",
-    "test": "pnpm --prefix client run test && pnpm --prefix server run test",
+    "db:setup": "pnpm --filter @template-fullstack-express-simple/server db:generate && pnpm --filter @template-fullstack-express-simple/server db:push",
+    "test": "pnpm --filter @template-fullstack-express-simple/client test && pnpm --filter @template-fullstack-express-simple/server test",
     "test:e2e": "playwright test",
-    "lint": "pnpm --prefix client run lint && pnpm --prefix server run lint",
-    "typecheck": "pnpm --prefix client run typecheck && pnpm --prefix server run typecheck",
+    "lint": "pnpm --filter @template-fullstack-express-simple/client lint && pnpm --filter @template-fullstack-express-simple/server lint",
+    "typecheck": "pnpm --filter @template-fullstack-express-simple/client typecheck && pnpm --filter @template-fullstack-express-simple/server typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "client/**/*.{ts,tsx}": [
+      "pnpm --filter @template-fullstack-express-simple/client exec eslint --no-warn-ignored"
+    ],
+    "server/**/*.ts": [
+      "pnpm --filter @template-fullstack-express-simple/server exec eslint --no-warn-ignored"
+    ],
+    "*.{ts,tsx,json,md,css}": [
+      "prettier --check --ignore-unknown"
+    ]
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "concurrently": "^9.1.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.8.1"
   }
 }
