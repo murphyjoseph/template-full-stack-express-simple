@@ -19,6 +19,9 @@ export function NavBar() {
       <ChakraLink asChild fontWeight="medium">
         <Link to="/items-action">Items (Action)</Link>
       </ChakraLink>
+      <ChakraLink asChild fontWeight="medium">
+        <Link to="/items-search">Search</Link>
+      </ChakraLink>
     </Flex>
   );
 }

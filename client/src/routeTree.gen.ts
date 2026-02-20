@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ItemsIndexRouteImport } from './routes/items/index'
 import { Route as ItemsSwrIndexRouteImport } from './routes/items-swr/index'
+import { Route as ItemsSearchIndexRouteImport } from './routes/items-search/index'
 import { Route as ItemsFormIndexRouteImport } from './routes/items-form/index'
 import { Route as ItemsActionIndexRouteImport } from './routes/items-action/index'
 
@@ -30,6 +31,11 @@ const ItemsSwrIndexRoute = ItemsSwrIndexRouteImport.update({
   path: '/items-swr/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ItemsSearchIndexRoute = ItemsSearchIndexRouteImport.update({
+  id: '/items-search/',
+  path: '/items-search/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ItemsFormIndexRoute = ItemsFormIndexRouteImport.update({
   id: '/items-form/',
   path: '/items-form/',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/items-action/': typeof ItemsActionIndexRoute
   '/items-form/': typeof ItemsFormIndexRoute
+  '/items-search/': typeof ItemsSearchIndexRoute
   '/items-swr/': typeof ItemsSwrIndexRoute
   '/items/': typeof ItemsIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/items-action': typeof ItemsActionIndexRoute
   '/items-form': typeof ItemsFormIndexRoute
+  '/items-search': typeof ItemsSearchIndexRoute
   '/items-swr': typeof ItemsSwrIndexRoute
   '/items': typeof ItemsIndexRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/items-action/': typeof ItemsActionIndexRoute
   '/items-form/': typeof ItemsFormIndexRoute
+  '/items-search/': typeof ItemsSearchIndexRoute
   '/items-swr/': typeof ItemsSwrIndexRoute
   '/items/': typeof ItemsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/items-action/' | '/items-form/' | '/items-swr/' | '/items/'
+  fullPaths:
+    | '/'
+    | '/items-action/'
+    | '/items-form/'
+    | '/items-search/'
+    | '/items-swr/'
+    | '/items/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/items-action' | '/items-form' | '/items-swr' | '/items'
+  to:
+    | '/'
+    | '/items-action'
+    | '/items-form'
+    | '/items-search'
+    | '/items-swr'
+    | '/items'
   id:
     | '__root__'
     | '/'
     | '/items-action/'
     | '/items-form/'
+    | '/items-search/'
     | '/items-swr/'
     | '/items/'
   fileRoutesById: FileRoutesById
@@ -81,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ItemsActionIndexRoute: typeof ItemsActionIndexRoute
   ItemsFormIndexRoute: typeof ItemsFormIndexRoute
+  ItemsSearchIndexRoute: typeof ItemsSearchIndexRoute
   ItemsSwrIndexRoute: typeof ItemsSwrIndexRoute
   ItemsIndexRoute: typeof ItemsIndexRoute
 }
@@ -108,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ItemsSwrIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/items-search/': {
+      id: '/items-search/'
+      path: '/items-search'
+      fullPath: '/items-search/'
+      preLoaderRoute: typeof ItemsSearchIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/items-form/': {
       id: '/items-form/'
       path: '/items-form'
@@ -129,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ItemsActionIndexRoute: ItemsActionIndexRoute,
   ItemsFormIndexRoute: ItemsFormIndexRoute,
+  ItemsSearchIndexRoute: ItemsSearchIndexRoute,
   ItemsSwrIndexRoute: ItemsSwrIndexRoute,
   ItemsIndexRoute: ItemsIndexRoute,
 }

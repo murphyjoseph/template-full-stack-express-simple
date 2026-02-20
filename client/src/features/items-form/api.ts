@@ -12,7 +12,12 @@ export function useItems() {
 export function useCreateItem() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { title: string }) => api.post<Item>('/items', data),
+    mutationFn: (data: {
+      title: string;
+      description?: string;
+      priority?: number;
+      status?: string;
+    }) => api.post<Item>('/items', data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['items'] }),
   });
 }

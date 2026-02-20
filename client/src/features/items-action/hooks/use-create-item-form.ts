@@ -1,5 +1,4 @@
 import { useActionState, useRef } from 'react';
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { api } from '@/lib/api-client';
@@ -11,13 +10,16 @@ const createItemSchema = z.object({
     .trim()
     .min(1, 'Title is required')
     .min(3, 'Title must be at least 3 characters'),
+  description: z.string().trim().optional().default(''),
+  priority: z.coerce.number().int().min(1).max(5).default(3),
+  status: z.enum(['todo', 'in_progress', 'done']).default('todo'),
 });
 
 type FormState = {
-  errors?: { title?: string };
+  errors?: Record<string, string>;
 };
 
-export function CreateItemForm() {
+export function useCreateItemForm() {
   const queryClient = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -25,43 +27,39 @@ export function CreateItemForm() {
     async (_prev, formData) => {
       const result = createItemSchema.safeParse({
         title: formData.get('title'),
+        description: formData.get('description'),
+        priority: formData.get('priority'),
+        status: formData.get('status'),
       });
 
       if (!result.success) {
         const fieldErrors = result.error.flatten().fieldErrors;
-        return { errors: { title: fieldErrors.title?.[0] } };
+        return {
+          errors: {
+            title: fieldErrors.title?.[0] ?? '',
+            description: fieldErrors.description?.[0] ?? '',
+            priority: fieldErrors.priority?.[0] ?? '',
+            status: fieldErrors.status?.[0] ?? '',
+          },
+        };
       }
 
       try {
-        await api.post<Item>('/items', { title: result.data.title });
+        await api.post<Item>('/items', result.data);
       } catch {
         return {
-          errors: { title: 'Failed to create item. Please try again.' },
+          errors: {
+            title: 'Failed to create item. Please try again.',
+          } as Record<string, string>,
         };
       }
 
       await queryClient.invalidateQueries({ queryKey: ['items'] });
       formRef.current?.reset();
-      return {};
+      return {} as FormState;
     },
-    {}, // Initial action state (errors, etc.) before first submission
+    {},
   );
 
-  return (
-    <form ref={formRef} action={formAction}>
-      <Flex gap="2" align="flex-start">
-        <Box flex="1">
-          <Input name="title" placeholder="New item title..." />
-          {state.errors?.title && (
-            <Text color="red.500" fontSize="sm" mt="1">
-              {state.errors.title}
-            </Text>
-          )}
-        </Box>
-        <Button type="submit" colorPalette="blue" loading={isPending}>
-          Add
-        </Button>
-      </Flex>
-    </form>
-  );
+  return { formRef, formAction, isPending, errors: state.errors };
 }

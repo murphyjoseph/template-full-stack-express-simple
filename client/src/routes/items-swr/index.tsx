@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Container, Heading, Flex, Text } from '@chakra-ui/react';
-import { CreateItemForm } from '@/features/items-swr/components/create-item-form';
-import { ItemList } from '@/features/items-swr/components/item-list';
+import { CreateItemForm } from '@/features/items-swr/controllers/create-item-form';
+import { ItemList } from '@/features/items-swr/controllers/item-list';
 
 export const Route = createFileRoute('/items-swr/')({
   component: ItemsSwrPage,
