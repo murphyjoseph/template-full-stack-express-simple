@@ -17,7 +17,7 @@ function RootLayout() {
             </Text>
             <HStack gap="6">
               <Link to="/">
-                {({ isActive }) => (
+                {({ isActive }: { isActive: boolean }) => (
                   <Text
                     fontWeight={isActive ? 'semibold' : 'normal'}
                     color={isActive ? 'fg' : 'fg.muted'}
@@ -28,7 +28,7 @@ function RootLayout() {
                 )}
               </Link>
               <Link to="/items-search">
-                {({ isActive }) => (
+                {({ isActive }: { isActive: boolean }) => (
                   <Text
                     fontWeight={isActive ? 'semibold' : 'normal'}
                     color={isActive ? 'fg' : 'fg.muted'}
@@ -39,7 +39,7 @@ function RootLayout() {
                 )}
               </Link>
               <Link to="/create-item">
-                {({ isActive }) => (
+                {({ isActive }: { isActive: boolean }) => (
                   <Text
                     fontWeight={isActive ? 'semibold' : 'normal'}
                     color={isActive ? 'fg' : 'fg.muted'}

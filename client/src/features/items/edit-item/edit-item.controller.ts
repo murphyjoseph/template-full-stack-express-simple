@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { useUpdateItem } from '../api/items.mutations';
 import { editItemSchema } from './edit-item.schema';
+import type { EditItemFormData } from './edit-item.schema';
 import type { Item } from '../types';
 
 export function useEditItemController(
@@ -18,7 +19,7 @@ export function useEditItemController(
       description: item.description ?? '',
       priority: item.priority,
       status: item.status,
-    },
+    } as EditItemFormData,
     validators: {
       onChange: editItemSchema,
     },

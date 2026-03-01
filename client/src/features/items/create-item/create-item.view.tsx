@@ -9,6 +9,7 @@ import {
   Stack,
   Textarea,
 } from '@chakra-ui/react';
+import type { ItemStatus } from '../types';
 import type { useCreateItemController } from './create-item.controller';
 
 type Props = ReturnType<typeof useCreateItemController>;
@@ -100,7 +101,9 @@ export function CreateItemView({ form, isPending }: Props) {
                     <NativeSelect.Root>
                       <NativeSelect.Field
                         value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) =>
+                          field.handleChange(e.target.value as ItemStatus)
+                        }
                       >
                         <option value="todo">To Do</option>
                         <option value="in_progress">In Progress</option>

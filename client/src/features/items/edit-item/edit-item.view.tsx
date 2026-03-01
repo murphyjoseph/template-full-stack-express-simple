@@ -9,7 +9,7 @@ import {
   Stack,
   Textarea,
 } from '@chakra-ui/react';
-import type { Item } from '../types';
+import type { Item, ItemStatus } from '../types';
 import { useEditItemController } from './edit-item.controller';
 
 type Props = {
@@ -127,7 +127,9 @@ export function EditItemDialog({
                         <NativeSelect.Root>
                           <NativeSelect.Field
                             value={field.state.value}
-                            onChange={(e) => field.handleChange(e.target.value)}
+                            onChange={(e) =>
+                              field.handleChange(e.target.value as ItemStatus)
+                            }
                           >
                             <option value="todo">To Do</option>
                             <option value="in_progress">In Progress</option>

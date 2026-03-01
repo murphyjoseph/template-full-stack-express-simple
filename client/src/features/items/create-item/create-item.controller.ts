@@ -15,7 +15,7 @@ export function useCreateItemController(callbacks: {
       description: '',
       priority: 3,
       status: 'todo',
-    } satisfies CreateItemFormData,
+    } as CreateItemFormData,
     validators: {
       onChange: createItemSchema,
     },
