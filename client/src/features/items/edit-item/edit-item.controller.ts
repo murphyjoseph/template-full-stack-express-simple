@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form';
 import { useUpdateItem } from '../api/items.mutations';
-import { editItemSchema, type EditItemFormValues } from './edit-item.schema';
+import { editItemSchema } from './edit-item.schema';
 import type { Item } from '../types';
 
 export function useEditItemController(
@@ -12,7 +12,7 @@ export function useEditItemController(
 ) {
   const mutation = useUpdateItem();
 
-  const form = useForm<EditItemFormValues>({
+  const form = useForm({
     defaultValues: {
       title: item.title,
       description: item.description ?? '',

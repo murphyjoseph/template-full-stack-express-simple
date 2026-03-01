@@ -64,7 +64,10 @@ export function EditItemView({
                         {field.state.meta.errors.length > 0 && (
                           <Field.ErrorText>
                             {field.state.meta.errors
-                              .map((e) => e.message ?? e)
+                              .map((e) =>
+                                typeof e === 'string' ? e : (e?.message ?? ''),
+                              )
+                              .filter(Boolean)
                               .join(', ')}
                           </Field.ErrorText>
                         )}

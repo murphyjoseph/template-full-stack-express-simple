@@ -11,13 +11,15 @@ export function useCreateItemController(options: {
 }) {
   const mutation = useCreateItem();
 
-  const form = useForm<CreateItemFormValues>({
-    defaultValues: {
-      title: '',
-      description: '',
-      priority: 3,
-      status: 'todo',
-    },
+  const defaultValues: CreateItemFormValues = {
+    title: '',
+    description: '',
+    priority: 3,
+    status: 'todo',
+  };
+
+  const form = useForm({
+    defaultValues,
     validators: {
       onChange: createItemSchema,
     },
