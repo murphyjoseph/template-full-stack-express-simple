@@ -114,6 +114,49 @@ app.delete('/api/items/:id', async (req, res) => {
   }
 });
 
+const updateItemSchema = createItemSchema.partial();
+
+app.patch('/api/items/:id', async (req, res) => {
+  const parsed = idParamSchema.safeParse(req.params.id);
+  if (!parsed.success) {
+    res.status(400).json({ error: 'Invalid item ID' });
+    return;
+  }
+
+  const result = updateItemSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.flatten().fieldErrors });
+    return;
+  }
+
+  const data: Record<string, unknown> = {};
+  if (result.data.title !== undefined) data.title = result.data.title;
+  if (result.data.description !== undefined)
+    data.description = result.data.description || null;
+  if (result.data.priority !== undefined) data.priority = result.data.priority;
+  if (result.data.status !== undefined) data.status = result.data.status;
+
+  try {
+    const item = await prisma.item.update({
+      where: { id: parsed.data },
+      data,
+    });
+    res.json(item);
+  } catch (err) {
+    if (
+      typeof err === 'object' &&
+      err !== null &&
+      'code' in err &&
+      err.code === 'P2025'
+    ) {
+      res.status(404).json({ error: 'Item not found' });
+      return;
+    }
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update item' });
+  }
+});
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

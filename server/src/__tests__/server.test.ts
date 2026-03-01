@@ -169,3 +169,64 @@ describe('GET /api/items/search', () => {
     expect(res.body.length).toBeGreaterThan(0);
   });
 });
+
+describe('PATCH /api/items/:id', () => {
+  let patchItemId: number;
+
+  beforeAll(async () => {
+    const res = await request(app).post('/api/items').send({
+      title: 'Patch Test Item',
+      priority: 2,
+      status: 'todo',
+    });
+    patchItemId = res.body.id;
+    testItemIds.push(patchItemId);
+  });
+
+  it('updates title only', async () => {
+    const res = await request(app)
+      .patch(`/api/items/${patchItemId}`)
+      .send({ title: 'Updated Title' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('Updated Title');
+    expect(res.body.priority).toBe(2);
+  });
+
+  it('updates multiple fields', async () => {
+    const res = await request(app)
+      .patch(`/api/items/${patchItemId}`)
+      .send({ priority: 5, status: 'done' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.priority).toBe(5);
+    expect(res.body.status).toBe('done');
+  });
+
+  it('rejects invalid title', async () => {
+    const res = await request(app)
+      .patch(`/api/items/${patchItemId}`)
+      .send({ title: 'ab' });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+  });
+
+  it('rejects invalid id', async () => {
+    const res = await request(app)
+      .patch('/api/items/abc')
+      .send({ title: 'Whatever' });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Invalid item ID');
+  });
+
+  it('returns 404 for non-existent item', async () => {
+    const res = await request(app)
+      .patch('/api/items/999999')
+      .send({ title: 'Ghost' });
+
+    expect(res.status).toBe(404);
+    expect(res.body.error).toBe('Item not found');
+  });
+});
