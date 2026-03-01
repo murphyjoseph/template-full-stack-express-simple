@@ -2,6 +2,7 @@ import {
   Badge,
   Card,
   EmptyState,
+  Heading,
   HStack,
   Input,
   SimpleGrid,
@@ -19,7 +20,7 @@ const STATUS_LABELS: Record<ItemStatus, string> = {
 
 const STATUS_COLORS: Record<ItemStatus, string> = {
   todo: 'gray',
-  in_progress: 'blue',
+  in_progress: 'orange',
   done: 'green',
 };
 
@@ -32,21 +33,29 @@ type SearchViewProps = {
 
 function ResultCard({ item }: { item: Item }) {
   return (
-    <Card.Root>
-      <Card.Body gap="2">
-        <HStack justifyContent="space-between">
-          <Card.Title>{item.title}</Card.Title>
-          <Badge colorPalette={STATUS_COLORS[item.status]}>
+    <Card.Root
+      variant="elevated"
+      transition="all 0.2s"
+      _hover={{ shadow: 'lg', transform: 'translateY(-2px)' }}
+    >
+      <Card.Body gap="3">
+        <HStack justifyContent="space-between" alignItems="flex-start">
+          <Card.Title fontFamily="heading" fontWeight="600">
+            {item.title}
+          </Card.Title>
+          <Badge colorPalette={STATUS_COLORS[item.status]} size="sm">
             {STATUS_LABELS[item.status]}
           </Badge>
         </HStack>
         {item.description && (
-          <Text color="fg.muted" lineClamp={2}>
+          <Text color="fg.muted" fontSize="sm" lineClamp={2}>
             {item.description}
           </Text>
         )}
-        <HStack gap="2" mt="2">
-          <Badge variant="outline">P{item.priority}</Badge>
+        <HStack gap="2">
+          <Badge variant="outline" size="sm">
+            P{item.priority}
+          </Badge>
         </HStack>
       </Card.Body>
     </Card.Root>
@@ -61,7 +70,7 @@ function SearchResults({
   if (isLoading && query) {
     return (
       <VStack justify="center" minH="200px">
-        <Spinner size="lg" />
+        <Spinner size="lg" color="teal.500" />
       </VStack>
     );
   }
@@ -70,7 +79,9 @@ function SearchResults({
     return (
       <EmptyState.Root>
         <EmptyState.Content>
-          <EmptyState.Title>Enter a search term</EmptyState.Title>
+          <EmptyState.Title color="fg.muted">
+            Enter a search term to find items
+          </EmptyState.Title>
         </EmptyState.Content>
       </EmptyState.Root>
     );
@@ -81,6 +92,9 @@ function SearchResults({
       <EmptyState.Root>
         <EmptyState.Content>
           <EmptyState.Title>No results found</EmptyState.Title>
+          <EmptyState.Description>
+            Try a different search term.
+          </EmptyState.Description>
         </EmptyState.Content>
       </EmptyState.Root>
     );
@@ -103,10 +117,14 @@ export function SearchView({
 }: SearchViewProps) {
   return (
     <VStack gap="6" align="stretch">
+      <Heading fontFamily="heading" size="2xl">
+        Search
+      </Heading>
       <Input
-        placeholder="Search items..."
+        placeholder="Search items by title or description..."
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
+        size="lg"
       />
       <SearchResults query={query} items={items} isLoading={isLoading} />
     </VStack>

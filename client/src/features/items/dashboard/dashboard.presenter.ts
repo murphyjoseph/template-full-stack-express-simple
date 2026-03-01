@@ -24,7 +24,7 @@ const STATUS_LABELS: Record<ItemStatus, string> = {
 
 const STATUS_COLORS: Record<ItemStatus, string> = {
   todo: 'gray',
-  in_progress: 'blue',
+  in_progress: 'orange',
   done: 'green',
 };
 

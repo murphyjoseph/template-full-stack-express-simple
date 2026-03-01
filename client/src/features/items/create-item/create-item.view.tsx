@@ -21,7 +21,7 @@ export function CreateItemView({ form, isPending }: CreateItemViewProps) {
       <Heading size="2xl" mb="4">
         Create Item
       </Heading>
-      <Card.Root maxW="lg" w="full">
+      <Card.Root variant="elevated" maxW="lg" w="full">
         <Card.Body>
           <form
             onSubmit={(e) => {

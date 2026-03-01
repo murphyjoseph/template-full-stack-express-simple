@@ -57,7 +57,7 @@ describe('presentDashboard', () => {
         description: 'A description',
         priorityLabel: 'P1',
         statusLabel: 'In Progress',
-        statusColor: 'blue',
+        statusColor: 'orange',
       }),
     );
   });
@@ -70,7 +70,7 @@ describe('presentDashboard', () => {
     ];
     const result = presentDashboard(items, false);
     expect(result.items[0].statusColor).toBe('gray');
-    expect(result.items[1].statusColor).toBe('blue');
+    expect(result.items[1].statusColor).toBe('orange');
     expect(result.items[2].statusColor).toBe('green');
   });
 });

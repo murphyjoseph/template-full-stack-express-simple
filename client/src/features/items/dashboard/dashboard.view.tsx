@@ -25,20 +25,37 @@ type DashboardViewProps = {
 
 function SummaryStats({ counts }: { counts: DashboardViewModel['counts'] }) {
   const stats = [
-    { label: 'Todo', value: counts.todo },
-    { label: 'In Progress', value: counts.inProgress },
-    { label: 'Done', value: counts.done },
-    { label: 'Total', value: counts.total },
+    { label: 'Todo', value: counts.todo, color: 'gray.400' },
+    { label: 'In Progress', value: counts.inProgress, color: 'orange.400' },
+    { label: 'Done', value: counts.done, color: 'green.400' },
+    { label: 'Total', value: counts.total, color: 'teal.500' },
   ];
 
   return (
     <SimpleGrid columns={{ base: 2, md: 4 }} gap="4">
       {stats.map((stat) => (
-        <Card.Root key={stat.label}>
-          <Card.Body>
+        <Card.Root
+          key={stat.label}
+          variant="elevated"
+          borderLeftWidth="4px"
+          borderLeftColor={stat.color}
+        >
+          <Card.Body py="4">
             <Stat.Root>
-              <Stat.Label>{stat.label}</Stat.Label>
-              <Stat.ValueText>{stat.value}</Stat.ValueText>
+              <Stat.Label
+                fontSize="xs"
+                textTransform="uppercase"
+                letterSpacing="wider"
+              >
+                {stat.label}
+              </Stat.Label>
+              <Stat.ValueText
+                fontSize="3xl"
+                fontWeight="700"
+                fontFamily="heading"
+              >
+                {stat.value}
+              </Stat.ValueText>
             </Stat.Root>
           </Card.Body>
         </Card.Root>
@@ -57,30 +74,40 @@ function ItemCard({
   onDelete: (itemId: number) => void;
 }) {
   return (
-    <Card.Root>
-      <Card.Body gap="2">
-        <HStack justifyContent="space-between">
-          <Card.Title>{item.title}</Card.Title>
-          <Badge colorPalette={item.statusColor}>{item.statusLabel}</Badge>
+    <Card.Root
+      variant="elevated"
+      transition="all 0.2s"
+      _hover={{ shadow: 'lg', transform: 'translateY(-2px)' }}
+    >
+      <Card.Body gap="3">
+        <HStack justifyContent="space-between" alignItems="flex-start">
+          <Card.Title fontFamily="heading" fontWeight="600">
+            {item.title}
+          </Card.Title>
+          <Badge colorPalette={item.statusColor} size="sm">
+            {item.statusLabel}
+          </Badge>
         </HStack>
         {item.description && (
-          <Text color="fg.muted" lineClamp={2}>
+          <Text color="fg.muted" fontSize="sm" lineClamp={2}>
             {item.description}
           </Text>
         )}
-        <HStack gap="2" mt="2">
-          <Badge variant="outline">{item.priorityLabel}</Badge>
+        <HStack gap="2">
+          <Badge variant="outline" size="sm">
+            {item.priorityLabel}
+          </Badge>
           <Text textStyle="xs" color="fg.muted">
             {item.createdAtFormatted}
           </Text>
         </HStack>
       </Card.Body>
-      <Card.Footer justifyContent="flex-end">
-        <Button variant="outline" size="sm" onClick={() => onEdit(item.id)}>
+      <Card.Footer justifyContent="flex-end" gap="2" pt="0">
+        <Button variant="ghost" size="sm" onClick={() => onEdit(item.id)}>
           Edit
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           colorPalette="red"
           onClick={() => onDelete(item.id)}
@@ -108,8 +135,8 @@ export function DashboardView({
 
   if (viewModel.renderAs === 'loading') {
     return (
-      <VStack justify="center" minH="200px">
-        <Spinner size="lg" />
+      <VStack justify="center" minH="300px">
+        <Spinner size="lg" color="teal.500" />
       </VStack>
     );
   }
@@ -118,8 +145,10 @@ export function DashboardView({
     return (
       <EmptyState.Root>
         <EmptyState.Content>
-          <VStack textAlign="center">
-            <EmptyState.Title>No items yet</EmptyState.Title>
+          <VStack textAlign="center" gap="2">
+            <EmptyState.Title fontFamily="heading" fontSize="xl">
+              No items yet
+            </EmptyState.Title>
             <EmptyState.Description>
               Create your first item to get started.
             </EmptyState.Description>
