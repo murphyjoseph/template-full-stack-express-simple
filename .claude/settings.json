@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "codedojoe": {
+      "source": {
+        "source": "github",
+        "repo": "murphyjoseph/claude-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "dojo-kit@codedojoe": true
+  }
+}
