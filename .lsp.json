@@ -1,0 +1,8 @@
+{
+  "lspServers": {
+    "typescript-lsp": {
+      "command": "npx",
+      "args": ["typescript-language-server", "--stdio"]
+    }
+  }
+}

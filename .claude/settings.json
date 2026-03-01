@@ -1,0 +1,15 @@
+{
+  "enabledPlugins": {
+    "dojo-kit@codedojoe": true,
+    "superpowers@claude-plugins-official": true,
+    "github@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "codedojoe": {
+      "source": {
+        "source": "github",
+        "repo": "murphyjoseph/claude-plugins"
+      }
+    }
+  }
+}
