@@ -117,6 +117,60 @@ describe('Validation errors', () => {
   });
 });
 
+describe('PATCH /api/items/:id', () => {
+  let patchItemId: number;
+
+  beforeAll(async () => {
+    const res = await request(app).post('/api/items').send({
+      title: 'Patch Test Item',
+      description: 'Original description',
+      priority: 2,
+      status: 'todo',
+    });
+    patchItemId = res.body.id;
+    testItemIds.push(patchItemId);
+  });
+
+  it('updates title only', async () => {
+    const res = await request(app)
+      .patch(`/api/items/${patchItemId}`)
+      .send({ title: 'Updated Title' });
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('Updated Title');
+    expect(res.body.description).toBe('Original description');
+  });
+
+  it('updates multiple fields', async () => {
+    const res = await request(app)
+      .patch(`/api/items/${patchItemId}`)
+      .send({ priority: 5, status: 'done' });
+    expect(res.status).toBe(200);
+    expect(res.body.priority).toBe(5);
+    expect(res.body.status).toBe('done');
+  });
+
+  it('rejects invalid fields', async () => {
+    const res = await request(app)
+      .patch(`/api/items/${patchItemId}`)
+      .send({ priority: 10 });
+    expect(res.status).toBe(400);
+  });
+
+  it('returns 404 for non-existent item', async () => {
+    const res = await request(app)
+      .patch('/api/items/999999')
+      .send({ title: 'Nope' });
+    expect(res.status).toBe(404);
+  });
+
+  it('rejects invalid id', async () => {
+    const res = await request(app)
+      .patch('/api/items/abc')
+      .send({ title: 'Nope' });
+    expect(res.status).toBe(400);
+  });
+});
+
 describe('GET /api/items/search', () => {
   const searchItemIds: number[] = [];
 

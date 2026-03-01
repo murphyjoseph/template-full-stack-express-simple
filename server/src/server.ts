@@ -21,6 +21,8 @@ const createItemSchema = z.object({
   status: z.enum(['todo', 'in_progress', 'done']).default('todo'),
 });
 
+const updateItemSchema = createItemSchema.partial();
+
 const searchQuerySchema = z.object({
   q: z.string().default(''),
 });
@@ -86,6 +88,40 @@ app.get('/api/items/search', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to search items' });
+  }
+});
+
+app.patch('/api/items/:id', async (req, res) => {
+  const idParsed = idParamSchema.safeParse(req.params.id);
+  if (!idParsed.success) {
+    res.status(400).json({ error: 'Invalid item ID' });
+    return;
+  }
+
+  const bodyParsed = updateItemSchema.safeParse(req.body);
+  if (!bodyParsed.success) {
+    res.status(400).json({ error: bodyParsed.error.flatten().fieldErrors });
+    return;
+  }
+
+  try {
+    const item = await prisma.item.update({
+      where: { id: idParsed.data },
+      data: bodyParsed.data,
+    });
+    res.json(item);
+  } catch (err) {
+    if (
+      typeof err === 'object' &&
+      err !== null &&
+      'code' in err &&
+      err.code === 'P2025'
+    ) {
+      res.status(404).json({ error: 'Item not found' });
+      return;
+    }
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update item' });
   }
 });
 
