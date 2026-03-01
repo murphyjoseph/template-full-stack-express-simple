@@ -21,6 +21,22 @@ const createItemSchema = z.object({
   status: z.enum(['todo', 'in_progress', 'done']).default('todo'),
 });
 
+const updateItemSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .min(1, 'Title is required')
+      .min(3, 'Title must be at least 3 characters'),
+    description: z.string().trim().nullable(),
+    priority: z.coerce.number().int().min(1).max(5),
+    status: z.enum(['todo', 'in_progress', 'done']),
+  })
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: 'At least one field must be provided',
+  });
+
 const searchQuerySchema = z.object({
   q: z.string().default(''),
 });
@@ -86,6 +102,40 @@ app.get('/api/items/search', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to search items' });
+  }
+});
+
+app.patch('/api/items/:id', async (req, res) => {
+  const parsedId = idParamSchema.safeParse(req.params.id);
+  if (!parsedId.success) {
+    res.status(400).json({ error: 'Invalid item ID' });
+    return;
+  }
+
+  const result = updateItemSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.flatten().fieldErrors });
+    return;
+  }
+
+  try {
+    const item = await prisma.item.update({
+      where: { id: parsedId.data },
+      data: result.data,
+    });
+    res.json(item);
+  } catch (err) {
+    if (
+      typeof err === 'object' &&
+      err !== null &&
+      'code' in err &&
+      err.code === 'P2025'
+    ) {
+      res.status(404).json({ error: 'Item not found' });
+      return;
+    }
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update item' });
   }
 });
 
